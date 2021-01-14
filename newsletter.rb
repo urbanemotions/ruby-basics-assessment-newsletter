@@ -31,45 +31,58 @@ def calculate_recipients
   # Using the SUBSCRIBERS and UNSUBSCRIBED arrays,
   # write a method that will return an array of only the subscribers who haven't unsubscribed
   #if sub == unsub then delete email else add email to new array, then print new array
-  new_subscribers_list = []
-  SUBSCRIBERS.each do |email|
-    UNSUBSCRIBED.each do |email|
-      if SUBSCRIBERS[:email] != UNSUBSCRIBED[:email]
-        new_subscribers_list << SUBSCRIBERS[:email]
-      end
-    end
+  # new_subscribers_list = []
+  # SUBSCRIBERS.each do |email|
+  #   UNSUBSCRIBED.each do |email|
+  #     if SUBSCRIBERS[:email] != UNSUBSCRIBED[:email]
+  #       new_subscribers_list << SUBSCRIBERS[:email]
+  #     end
+  #   end
+  # end
+  # new_subscribers_list
+  SUBSCRIBERS.reject do |email| 
+    UNSUBSCRIBED.include?(email)
   end
-  new_subscribers_list
 end
 
 def first_n_articles(number_of_articles)
-  ARTICLES.detect(number_of_articles)
+  #ARTICLES.detect(number_of_articles)
+  ARTICLES.first(number_of_articles)
 end
 
 def print_recipients
   # Write a method that uses the output of calculate_recipients
   # and returns a list of emails separated by commas
   # Ex) "abc@email.com, def@email.com, ghi@email.com"
+  puts calculate_recipients.join(", ")
 end
 
 def print_one_article(article)
   # Write a method that will take an article hash
   # and print the title, author and text as a formatted string
   # See the README/sample output for examples
-  ARTICLES.each do |article|
-    #if article.class == Hash
-      article.each do |key, value|
-        #ARTICLES.detect(article)
-        puts "#{ARTICLES[:title]}\n by: #{ARTICLES[:author]}\n #{ARTICLES[:text]}"
-      end
-    #end
-  end
+  #article = Hash.new 
+  # ARTICLES.each do |article|
+  #   if article.class == Hash
+  #     article.each do |key, value|
+  #       ARTICLES.detect(article)
+  #       puts "#{ARTICLES[:title]}\n by: #{ARTICLES[:author]}\n #{ARTICLES[:text]}"
+  #     end.to_i
+  #   end
+  # end
+  puts "#{article[:title]}"
+  puts "by: #{article[:author]}"
+  puts article[:text]
+  put " "
 end
 
 def print_many_articles(articles)
   # Write a method that will take in an array of article hashes
   # and format each one using the print_one_article method
   print_one_article(articles)
+  articles.each do |article|
+    print_one_article(article)
+  end
 end
 
 def format_campus_location(campus)
@@ -95,7 +108,7 @@ def print_newsletter(number)
 
   puts "\nBODY:"
   format_subject
-  articles = first_n_articles(number)
+  articles = first_n_articles(number.to_i)
   print_many_articles(articles)
   puts format_footer(CAMPUS)
 end
@@ -103,7 +116,7 @@ end
 def run
   # We want our program to print three articles by default,
   # but we can change that number here
-  print_newsletter("3")
+  print_newsletter(3)
 end
 
 # When we run "ruby newsletter.rb" in the command line,
